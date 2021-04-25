@@ -13,7 +13,7 @@ class OrdersScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('My Order'),
       ),
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.grey[100],
       drawer: AppDrawer(),
       body: FutureBuilder(
         future: Provider.of<Order>(context, listen: false)

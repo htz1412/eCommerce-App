@@ -5,7 +5,6 @@ class HttpException implements Exception {
 
   @override
   String toString() {
-    print('HttpException Class.');
     return message;
   }
 }

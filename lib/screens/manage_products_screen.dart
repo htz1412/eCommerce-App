@@ -9,12 +9,13 @@ class ManageProductsScreen extends StatelessWidget {
   static const routeName = '/manage-products';
 
   Future<void> _refreshProducts(BuildContext context) async {
-    await Provider.of<Products>(context,listen: false).fetchAndSetProducts();
+    await Provider.of<Products>(context, listen: false)
+        .fetchAndSetProducts(true);
   }
 
   @override
   Widget build(BuildContext context) {
-    final products = Provider.of<Products>(context);
+    // final products = Provider.of<Products>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Manage Products'),
@@ -28,21 +29,40 @@ class ManageProductsScreen extends StatelessWidget {
         ],
       ),
       drawer: AppDrawer(),
-      body: RefreshIndicator(
-        onRefresh: () => _refreshProducts(context),
-        child: ListView.builder(
-          itemBuilder: (ctx, index) {
-            return Column(
-              children: [
-                ManageProductItem(
-                  products.items[index],
-                ),
-                Divider(),
-              ],
+      body: FutureBuilder(
+        future: _refreshProducts(context),
+        builder: (ctx, snapShot) {
+          if (snapShot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
             );
-          },
-          itemCount: products.items.length,
-        ),
+          } else {
+            if (snapShot.error == null) {
+              return RefreshIndicator(
+                onRefresh: () => _refreshProducts(context),
+                child: Consumer<Products>(
+                  builder: (ctx, products, _) => ListView.builder(
+                    itemBuilder: (ctx, index) {
+                      return Column(
+                        children: [
+                          ManageProductItem(
+                            products.items[index],
+                          ),
+                          Divider(),
+                        ],
+                      );
+                    },
+                    itemCount: products.items.length,
+                  ),
+                ),
+              );
+            } else {
+              return Center(
+                child: Text('Error'),
+              );
+            }
+          }
+        },
       ),
     );
   }

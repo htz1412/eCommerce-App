@@ -6,8 +6,9 @@ import 'package:state_management_demo/screens/product_details_screen.dart';
 
 class ProductItem extends StatelessWidget {
   final Function toggleFavourite;
+  final String userId;
 
-  ProductItem(this.toggleFavourite);
+  ProductItem(this.toggleFavourite, this.userId);
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +26,12 @@ class ProductItem extends StatelessWidget {
           );
         },
         child: GridTile(
-          child: Image.network(
-            product.imageUrl,
-            fit: BoxFit.cover,
+          child: Hero(
+            tag: product.id,
+            child: Image.network(
+              product.imageUrl,
+              fit: BoxFit.cover,
+            ),
           ),
           footer: GridTileBar(
             backgroundColor: Colors.black87,
@@ -40,7 +44,7 @@ class ProductItem extends StatelessWidget {
               ),
               onPressed: () async {
                 try {
-                  await toggleFavourite(product);
+                  await toggleFavourite(product,userId);
                 } catch (error) {
                   snackBar.hideCurrentSnackBar();
                   snackBar.showSnackBar(

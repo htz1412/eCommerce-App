@@ -41,39 +41,44 @@ class _OrderItemState extends State<OrderItem> {
                 },
               ),
             ),
-            if (_isExpanded)
-              Container(
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(4),
-                    bottomRight: Radius.circular(4),
-                  ),
-                ),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
-                height: widget.ordersDetail.products.length * 24.0 + 16.0,
-                child: ListView(
-                  children: widget.ordersDetail.products
-                      .map(
-                        (cartItem) => Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(cartItem.title),
-                              Text(
-                                  '${cartItem.quantity}x     ${cartItem.price}'),
-                            ],
-                          ),
-                        ),
-                      )
-                      .toList(),
+            AnimatedContainer(
+              curve: Curves.fastOutSlowIn,
+              constraints: BoxConstraints(
+                minHeight: _isExpanded ? 40 : 0,
+                maxHeight: _isExpanded ? 100 : 0,
+              ),
+              duration: Duration(milliseconds: 300),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(4),
+                  bottomRight: Radius.circular(4),
                 ),
               ),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 8,
+              ),
+              height: widget.ordersDetail.products.length * 24.0 + 16.0,
+              child: ListView(
+                children: widget.ordersDetail.products
+                    .map(
+                      (cartItem) => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(cartItem.title),
+                            Text(
+                                '${cartItem.quantity}x     \$${cartItem.price}'),
+                          ],
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
           ],
         ),
       ),
