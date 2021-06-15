@@ -91,8 +91,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
     if (_editedProduct.id == null) {
       try {
-        await Provider.of<Products>(context, listen: false)
-            .addProduct(_editedProduct);
+        await Provider.of<Products>(context, listen: false).addProduct(_editedProduct);
       } catch (error) {
         await showDialog(
           context: context,
@@ -178,8 +177,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       keyboardType: TextInputType.number,
                       focusNode: _priceFocusNode,
                       onEditingComplete: () {
-                        FocusScope.of(context)
-                            .requestFocus(_descriptionFocusNode);
+                        FocusScope.of(context).requestFocus(_descriptionFocusNode);
                       },
                       onSaved: (value) {
                         _editedProduct = Product(
@@ -273,8 +271,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                               if (value.isEmpty) {
                                 return 'Please enter a url.';
                               }
-                              if (!value.startsWith('http') &&
-                                  !value.startsWith('https')) {
+                              if (!value.startsWith('http') && !value.startsWith('https')) {
                                 return 'Please enter a valid url.';
                               }
 
